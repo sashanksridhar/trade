@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>View Ticker Data</title>
+</head>
+<body>
+<center>
+<h3>List of Available Tickers</h3><br>
+
+<table>
+<tr>
+ <th> Ticker</th>
+ <td th:text="${ticker}">ticker</td>
+ </tr>
+ <th> Name</th>
+ <td th:text="${name}">name</td>
+ </tr>
+ <th> Exchange</th>
+ <td th:text="${exchange}">exchange</td>
+ </tr>
+ <th> Currency</th>
+ <td th:text="${currency}">currency</td>
+ </tr>
+ <th> Price</th>
+ <td th:text="${price}">price</td>
+ </tr>
+ <th> Volume</th>
+ <td th:text="${volume}">volume</td>
+ </tr>
+ <th> High</th>
+ <td th:text="${high}">high</td>
+ </tr>
+ <th> Low</th>
+ <td th:text="${low}">low</td>
+ </tr>
+ <th> Open</th>
+ <td th:text="${open}">open</td>
+ </tr>
+
+</table>
+
+
+<form id="form1" action="/user/main" method="post">
+<input name="email" type="hidden" id="em">
+<center><a href="#" onclick="document.getElementById('form1').submit();">Back to Main</a></center>
+    
+</form>
+
+
+</center>
+
+<script>
+document.getElementById("em").value = sessionStorage.getItem("email");
+</script>
+
+</body>
+</html>

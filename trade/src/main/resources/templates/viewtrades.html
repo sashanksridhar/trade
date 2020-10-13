@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Viewing Trades</title>
+</head>
+<body>
+<p>
+    <center><th:block th:utext="${message}">message</th:block></center>
+</p>
+<form id="form1" action="/user/main" method="post">
+<input name="email" type="hidden" id="em">
+<center><a href="#" onclick="document.getElementById('form1').submit();">Back to Main</a></center>
+    
+</form>
+<script>
+document.getElementById("em").value = sessionStorage.getItem("email");
+</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>List of Tickers</title>
+</head>
+<body>
+<center>
+<h3>List of Available Tickers to Update</h3><br>
+
+<table>
+<tr th:each="message: ${messages}">
+ <td >
+ <form th:id="${message}" action="/admin/update" method="post">
+<input name="ticker" type="hidden" id="ticker" th:value="${message}">
+<center><a href="#" th:attr="onclick=|document.getElementById('${message}').submit()|" th:text="${message}">message</a></center>
+    
+</form>
+
+</td>
+
+</tr>
+
+</table>
+
+
+</center>
+</body>
+</html>

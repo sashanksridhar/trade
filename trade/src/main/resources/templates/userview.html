@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+ <meta charset="UTF-8">
+<title><th:block th:text="${message}">message</th:block></title>
+</head>
+
+<body>
+
+<center>
+<p>
+    Hey there! <th:block th:text="${message}">message</th:block>
+</p>
+<h3><a href = "/trade/placeTrade.html">Place a Trade</a></h3>
+
+
+<form id="form1" action="/trade/view" method="post">
+<input name="email" type="hidden" id="em">
+<center><h3><a href="#" onclick="document.getElementById('form1').submit();">View Trades</a></h3></center>
+    
+</form>
+<h3><a href="/trade/deleteTrade.html">Delete a Trade</a></h3>
+
+
+<form id="form2" action="/portfolio/view" method="post">
+<center><h3><a href="#" onclick="document.getElementById('form2').submit();">View All Tickers</a></h3></center>
+
+<h3><a href = "/index.html">Logout</a></h3>
+
+</center>
+<script>
+document.getElementById("em").value = sessionStorage.getItem("email");
+</script>
+</body>
+</html>

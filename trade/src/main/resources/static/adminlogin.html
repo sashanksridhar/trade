@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Admin Login</title>
+</head>
+
+<body>
+<center>
+<form method = "POST" action = "/admin/login/" onsubmit="save()">
+<table border=5>
+<tr><th>Email</th><td><input id="admin" name = "id" type = "text"></td>
+</tr>
+<tr><th>Password</th><td><input name = "password" type = "password"></td></tr>
+<tr><td colspan = 2><center><input type = "Submit" name = "login" value = "login"></center></td></tr>
+
+</table>
+</form>
+</center>
+<script>
+function save(){
+	window.sessionStorage.setItem("adminid",document.getElementById("admin").value);
+	console.log(window.sessionStorage.email);
+}
+
+</script>
+</body>
+</html>

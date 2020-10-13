@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Delete Trade</title>
+</head>
+<body>
+<center>
+<form method = "POST" action = "/trade/delete/">
+<input id="em" name ="email" type="hidden">
+<table>
+<tr><th>Trade ID</th><td><input name = "id" type = "text"></td></tr>
+<tr><td colspan = 2><center><input type = "Submit" name = "deletetrade" value = "Delete Trade"></center></td></tr>
+</table>
+
+</form>
+</center>
+<script>
+document.getElementById("em").value = sessionStorage.getItem("email");
+</script>
+</body>
+</html>
