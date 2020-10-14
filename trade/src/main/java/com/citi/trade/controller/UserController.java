@@ -1,6 +1,14 @@
 package com.citi.trade.controller;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +36,9 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
+
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
 @Controller
 @CrossOrigin
 public class UserController {
@@ -147,5 +158,54 @@ public class UserController {
 		    return "tickerdata";
 		
 	}
+	
+	
+	@RequestMapping(value = "/portfolio/livequote", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String createCompanyPortfolio(@RequestParam Map<String, String> request,Model model) throws MalformedURLException {
+		Stock stock = null;
+		String ticker = request.get("ticker");
+
+		
+		try {
+			stock = YahooFinance.get(ticker);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(stock == null) {
+			model.addAttribute("message","Please Correct Ticker");
+		    return "redirecthome";
+		}
+		else {
+			
+			URL url = new URL("https://financialmodelingprep.com/api/v3/quote/"+ticker+"?apikey=a9d39eebca61a0cd592cdf037ef01b4e");
+
+			String lString = "";
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"))) {
+			   
+				for (String line; (line = reader.readLine()) != null;) {
+			    lString+=line;	
+//			    System.out.println(line);
+			    
+			  }
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
+			System.out.println(lString);
+	    	JSONArray array = new JSONArray(lString);
+	    	JSONObject object = array.getJSONObject(0);  
+	    	model.addAttribute("name",object.get("name"));
+	    	model.addAttribute("price",object.getBigDecimal("price"));
+			
+			return "displayliveprice";
+		}
+	}
+	
 	
 }

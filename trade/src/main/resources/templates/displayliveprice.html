@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<center>
+<h3 th:text="${name}">
+name
+</h3>
+<h3 th:text="${price}">
+price
+</h3>
+<form id="form1" action="/user/main" method="post">
+<input name="email" type="hidden" id="em">
+<center><a href="#" onclick="document.getElementById('form1').submit();">Back to Main</a></center>
+    
+</form>
+
+</center>
+<script>
+document.getElementById("em").value = sessionStorage.getItem("email");
+</script>
+</body>
+</html>
