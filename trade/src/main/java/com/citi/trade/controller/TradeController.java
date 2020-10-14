@@ -1,6 +1,11 @@
 package com.citi.trade.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -8,6 +13,8 @@ import javax.servlet.http.HttpSession;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +45,7 @@ public class TradeController {
 		    "mongodb+srv://mongoUser:cR5p1eKma8qWgIhp@cluster0.cddgx.mongodb.net/Task5?retryWrites=true&w=majority");
 	
 	@RequestMapping(value = "/trade/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public String createTrade(Trade trade, @RequestParam Map<String, String> request, Model model) {
+	public String createTrade(Trade trade, @RequestParam Map<String, String> request, Model model) throws MalformedURLException {
 		Stock stock = null;
 		String email = request.get("email");
 
@@ -64,6 +71,31 @@ public class TradeController {
 		    return "redirecthome";
 		}
 		else {
+			URL url = new URL("https://financialmodelingprep.com/api/v3/quote/"+trade.getTicker()+"?apikey=a9d39eebca61a0cd592cdf037ef01b4e");
+
+			String lString = "";
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"))) {
+			   
+				for (String line; (line = reader.readLine()) != null;) {
+			    lString+=line;	
+//			    System.out.println(line);
+			    
+			  }
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
+			System.out.println(lString);
+	    	JSONArray array = new JSONArray(lString);
+	    	JSONObject object = array.getJSONObject(0);  
+	    	
+	    	trade.setPrice(object.getBigDecimal("price").doubleValue());
 			MongoClient myMongo = new MongoClient(uri);
 			MongoDatabase database = myMongo.getDatabase("Task5");
 			
