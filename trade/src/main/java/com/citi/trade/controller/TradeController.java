@@ -67,7 +67,7 @@ public class TradeController {
 		}
 		if(stock == null) {
 			
-			model.addAttribute("message","Please Correct Ticker");
+			model.addAttribute("message","Please Enter Correct Ticker");
 		    return "redirecthome";
 		}
 		else {
