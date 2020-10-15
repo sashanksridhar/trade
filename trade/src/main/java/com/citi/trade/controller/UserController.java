@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
-
+import com.citi.trade.model.Trade;
 import com.citi.trade.model.User;
 
 import com.mongodb.MongoClient;
@@ -258,6 +258,24 @@ public class UserController {
 			return "displayrecommendation";
 		}
 	}
+	
+	@RequestMapping(value = "/user/addbalance", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String addBalance(@RequestParam Map<String, String> request, Model model) throws MalformedURLException {
+		Stock stock = null;
+		String email = request.get("email");
+		double bal = Double.parseDouble(request.get("balance"));
+		MongoClient myMongo = new MongoClient(uri);
+		MongoDatabase database = myMongo.getDatabase("Task5");
+		
+		MongoCollection<Document> usercollection = database.getCollection("users");
+		double amoun = usercollection.find(Filters.eq("email",email)).first().getDouble("amount");
+		amoun+=bal;
+		Document docu = new Document("amount",amoun);		
+		usercollection.updateOne(Filters.eq("email",email), new Document("$set", docu));
+		model.addAttribute("message","Balance Added. Remaining Balance is "+Double.toString(amoun));
+		return "balance";
+	}
+	
 	
 	
 }

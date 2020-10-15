@@ -125,7 +125,7 @@ public class TradeController {
 			mycollection = database.getCollection("user_portfolio");
 			mycollection.insertOne(document);
 			myMongo.close(); 
-			model.addAttribute("message","Trade has been created successfully. Trade ID is "+doc.getObjectId("_id").toString()+". <br> Balance is"+Double.toString(amoun));
+			model.addAttribute("message","Trade has been created successfully. Trade ID is "+doc.getObjectId("_id").toString()+". Balance is "+Double.toString(amoun));
 			return "createtrade";
 			}
 		}
@@ -146,6 +146,10 @@ public class TradeController {
 		FindIterable<Document> iterDoc = usercollection.find(Filters.eq("email",email));
 		Iterator<Document> it = iterDoc.iterator();
 		String s = "";
+		MongoCollection<Document> user = database.getCollection("users");
+		double amoun = user.find(Filters.eq("email",email)).first().getDouble("amount");
+		s+="Balance Remaining is "+Double.toString(amoun)+"<br>";
+		
 		while (it.hasNext()) {
 			Document myDocument = it.next();
 			ObjectId id = myDocument.getObjectId("id");
@@ -154,6 +158,7 @@ public class TradeController {
 			s+=myDoc.toString()+"<br>";
 			
 		}
+		
 		myMongo.close();
 		
 			model.addAttribute("message",s);
