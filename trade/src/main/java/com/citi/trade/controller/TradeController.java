@@ -125,7 +125,7 @@ public class TradeController {
 			mycollection = database.getCollection("user_portfolio");
 			mycollection.insertOne(document);
 			myMongo.close(); 
-			model.addAttribute("message","Trade has been created successfully. Trade ID is "+doc.getObjectId("_id").toString());
+			model.addAttribute("message","Trade has been created successfully. Trade ID is "+doc.getObjectId("_id").toString()+". <br> Balance is"+Double.toString(amoun));
 			return "createtrade";
 			}
 		}
