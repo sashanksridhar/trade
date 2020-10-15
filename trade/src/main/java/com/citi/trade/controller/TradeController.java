@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.citi.trade.TradeApplication;
 import com.citi.trade.model.Trade;
 import com.citi.trade.model.TradeType;
 import com.mongodb.MongoClient;
@@ -44,6 +45,7 @@ public class TradeController {
 	public static MongoClientURI uri = new MongoClientURI(
 		    "mongodb+srv://mongoUser:cR5p1eKma8qWgIhp@cluster0.cddgx.mongodb.net/Task5?retryWrites=true&w=majority");
 	
+	MongoDatabase database = TradeApplication.database;
 	@RequestMapping(value = "/trade/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String createTrade(Trade trade, @RequestParam Map<String, String> request, Model model) throws MalformedURLException {
 		Stock stock = null;
@@ -96,8 +98,8 @@ public class TradeController {
 	    	JSONObject object = array.getJSONObject(0);  
 	    	
 	    	trade.setPrice(object.getBigDecimal("price").doubleValue());
-			MongoClient myMongo = new MongoClient(uri);
-			MongoDatabase database = myMongo.getDatabase("Task5");
+//			MongoClient myMongo = new MongoClient(uri);
+//			MongoDatabase database = myMongo.getDatabase("Task5");
 			
 			MongoCollection<Document> usercollection = database.getCollection("users");
 			double amoun = usercollection.find(Filters.eq("email",email)).first().getDouble("amount");
@@ -124,7 +126,7 @@ public class TradeController {
 			Document document = new Document("id",objectId).append("email", email);
 			mycollection = database.getCollection("user_portfolio");
 			mycollection.insertOne(document);
-			myMongo.close(); 
+//			myMongo.close(); 
 			model.addAttribute("message","Trade has been created successfully. Trade ID is "+doc.getObjectId("_id").toString()+". Balance is "+Double.toString(amoun));
 			return "createtrade";
 			}
@@ -138,8 +140,8 @@ public class TradeController {
 
 		String email = request.get("email");
 
-		MongoClient myMongo = new MongoClient(uri);
-		MongoDatabase database = myMongo.getDatabase("Task5");
+//		MongoClient myMongo = new MongoClient(uri);
+//		MongoDatabase database = myMongo.getDatabase("Task5");
 		MongoCollection<Document> usercollection = database.getCollection("user_portfolio");
 		
 		
@@ -159,7 +161,7 @@ public class TradeController {
 			
 		}
 		
-		myMongo.close();
+//		myMongo.close();
 		
 			model.addAttribute("message",s);
 		    return "viewtrades";
@@ -170,15 +172,15 @@ public class TradeController {
 		
 		String id = request.get("id");
 		ObjectId objId = new ObjectId(id);
-		MongoClient myMongo = new MongoClient(uri);
-		MongoDatabase database = myMongo.getDatabase("Task5");
+//		MongoClient myMongo = new MongoClient(uri);
+//		MongoDatabase database = myMongo.getDatabase("Task5");
 		MongoCollection<Document> tradecollection = database.getCollection("trade");
 		tradecollection.deleteOne(Filters.eq("_id",objId));
 		System.out.println(objId.toString());
 		MongoCollection<Document> usercollection = database.getCollection("user_portfolio");
 		usercollection.deleteOne(Filters.eq("id",objId));
 		model.addAttribute("message","Trade Deleted Successfully");
-		myMongo.close();
+//		myMongo.close();
 		
 		return "deletetrades";
 	}

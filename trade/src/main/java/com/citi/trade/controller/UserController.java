@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.citi.trade.TradeApplication;
 import com.citi.trade.model.Trade;
 import com.citi.trade.model.User;
 
@@ -47,18 +48,18 @@ public class UserController {
 	public static MongoClientURI uri = new MongoClientURI(
 		    "mongodb+srv://mongoUser:cR5p1eKma8qWgIhp@cluster0.cddgx.mongodb.net/Task5?retryWrites=true&w=majority");
 	
-	
+	MongoDatabase database = TradeApplication.database;
 	@RequestMapping(value="/user/signup", method=RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 
 	public String signup(User user) {
 		System.out.println("hi");
-		MongoClient myMongo = new MongoClient(uri);
-		MongoDatabase database = myMongo.getDatabase("Task5");
+//		MongoClient myMongo = new MongoClient(uri);
+//		MongoDatabase database = myMongo.getDatabase("Task5");
 		
 		Document doc = new Document("email", user.getEmail()).append("name", user.getName()).append("password",user.getPassword()).append("amount", user.getAmount());
 		MongoCollection<Document> mycollection = database.getCollection("users");
 		mycollection.insertOne(doc);
-		myMongo.close(); 
+//		myMongo.close(); 
 		return "signupsuccess";
 		
 	}
@@ -70,8 +71,8 @@ public class UserController {
 		String password = request.get("password");
 		
 
-		MongoClient myMongo = new MongoClient(uri);
-		MongoDatabase database = myMongo.getDatabase("Task5");
+//		MongoClient myMongo = new MongoClient(uri);
+//		MongoDatabase database = myMongo.getDatabase("Task5");
 		MongoCollection<Document> mycollection = database.getCollection("users");
 		Document myDoc = mycollection.find(Filters.eq("email",email)).first();
 		System.out.println(myDoc);
@@ -93,8 +94,8 @@ public class UserController {
 		String email = request.get("email");
 		
 
-		MongoClient myMongo = new MongoClient(uri);
-		MongoDatabase database = myMongo.getDatabase("Task5");
+//		MongoClient myMongo = new MongoClient(uri);
+//		MongoDatabase database = myMongo.getDatabase("Task5");
 		MongoCollection<Document> mycollection = database.getCollection("users");
 		Document myDoc = mycollection.find(Filters.eq("email",email)).first();
 		System.out.println(myDoc);
@@ -110,11 +111,8 @@ public class UserController {
 
 	public String viewTrade(@RequestParam Map<String,String> request,Model model) {
 
-
-		
-
-		MongoClient myMongo = new MongoClient(uri);
-		MongoDatabase database = myMongo.getDatabase("Task5");
+//		MongoClient myMongo = new MongoClient(uri);
+//		MongoDatabase database = myMongo.getDatabase("Task5");
 		MongoCollection<Document> usercollection = database.getCollection("ticker_portfolio");
 		
 		
@@ -127,7 +125,7 @@ public class UserController {
 			strings.add(myDocument.getString("ticker"));
 			
 		}
-		myMongo.close();
+//		myMongo.close();
 		
 			model.addAttribute("messages",strings);
 		    return "viewtickers";
@@ -141,8 +139,8 @@ public class UserController {
 		String ticker = request.get("ticker");
 		
 
-		MongoClient myMongo = new MongoClient(uri);
-		MongoDatabase database = myMongo.getDatabase("Task5");
+//		MongoClient myMongo = new MongoClient(uri);
+//		MongoDatabase database = myMongo.getDatabase("Task5");
 		MongoCollection<Document> mycollection = database.getCollection("ticker_portfolio");
 		Document myDoc = mycollection.find(Filters.eq("ticker",ticker)).first();
 		System.out.println(myDoc);
@@ -264,8 +262,8 @@ public class UserController {
 		Stock stock = null;
 		String email = request.get("email");
 		double bal = Double.parseDouble(request.get("balance"));
-		MongoClient myMongo = new MongoClient(uri);
-		MongoDatabase database = myMongo.getDatabase("Task5");
+//		MongoClient myMongo = new MongoClient(uri);
+//		MongoDatabase database = myMongo.getDatabase("Task5");
 		
 		MongoCollection<Document> usercollection = database.getCollection("users");
 		double amoun = usercollection.find(Filters.eq("email",email)).first().getDouble("amount");

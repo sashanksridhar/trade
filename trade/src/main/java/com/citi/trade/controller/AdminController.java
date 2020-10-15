@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.citi.trade.TradeApplication;
 import com.citi.trade.model.Trade;
 import com.citi.trade.model.TradeType;
 import com.mongodb.MongoClient;
@@ -33,6 +34,8 @@ import yahoofinance.YahooFinance;
 public class AdminController {
 	public static MongoClientURI uri = new MongoClientURI(
 		    "mongodb+srv://mongoUser:cR5p1eKma8qWgIhp@cluster0.cddgx.mongodb.net/Task5?retryWrites=true&w=majority");
+	
+	MongoDatabase database = TradeApplication.database;
 	@RequestMapping(value = "/admin/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String login(@RequestParam Map<String,String> request,Model model) {
 //		System.out.println(request);
@@ -42,8 +45,8 @@ public class AdminController {
 		String password = request.get("password");
 		
 
-		MongoClient myMongo = new MongoClient(uri);
-		MongoDatabase database = myMongo.getDatabase("Task5");
+//		MongoClient myMongo = new MongoClient(uri);
+//		MongoDatabase database = myMongo.getDatabase("Task5");
 		MongoCollection<Document> mycollection = database.getCollection("admin");
 		Document myDoc = mycollection.find(Filters.eq("name",name)).first();
 		System.out.println(myDoc);
@@ -84,7 +87,7 @@ public class AdminController {
 				MongoCollection<Document> mycollection = database.getCollection("ticker_portfolio");
 				mycollection.insertOne(doc);
 				
-				myMongo.close(); 
+//				myMongo.close(); 
 				model.addAttribute("message","Company Portfolio has been created");
 				return "addcompany";
 			}
@@ -99,8 +102,8 @@ public class AdminController {
 
 			
 
-			MongoClient myMongo = new MongoClient(uri);
-			MongoDatabase database = myMongo.getDatabase("Task5");
+//			MongoClient myMongo = new MongoClient(uri);
+//			MongoDatabase database = myMongo.getDatabase("Task5");
 			MongoCollection<Document> usercollection = database.getCollection("ticker_portfolio");
 			
 			
@@ -113,7 +116,7 @@ public class AdminController {
 				strings.add(myDocument.getString("ticker"));
 				
 			}
-			myMongo.close();
+//			myMongo.close();
 			
 				model.addAttribute("messages",strings);
 			    return "updatetickersadmin";
@@ -137,9 +140,9 @@ public class AdminController {
 			    return "redirecthome";
 			}
 			else {
-				MongoClient myMongo = new MongoClient(uri);
-				MongoDatabase database = myMongo.getDatabase("Task5");
-				
+//				MongoClient myMongo = new MongoClient(uri);
+//				MongoDatabase database = myMongo.getDatabase("Task5");
+//				
 				
 				
 				Document doc = new Document("ticker", ticker).append("name", stock.getName()).append("exchange",stock.getStockExchange()).append("currency", stock.getCurrency()).append("price",stock.getQuote().getPrice()).append("volume", stock.getQuote().getAvgVolume()).append("high", stock.getQuote().getDayHigh()).append("low", stock.getQuote().getDayLow()).append("open", stock.getQuote().getOpen());
@@ -147,7 +150,7 @@ public class AdminController {
 				mycollection.updateOne(Filters.eq("ticker", ticker), new Document("$set", doc));
 				
 				
-				myMongo.close(); 
+//				myMongo.close(); 
 				model.addAttribute("message","Company Portfolio has been updated");
 				return "addcompany";
 			}
