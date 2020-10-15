@@ -55,7 +55,7 @@ public class UserController {
 		MongoClient myMongo = new MongoClient(uri);
 		MongoDatabase database = myMongo.getDatabase("Task5");
 		
-		Document doc = new Document("email", user.getEmail()).append("name", user.getName()).append("password",user.getPassword());
+		Document doc = new Document("email", user.getEmail()).append("name", user.getName()).append("password",user.getPassword()).append("amount", user.getAmount());
 		MongoCollection<Document> mycollection = database.getCollection("users");
 		mycollection.insertOne(doc);
 		myMongo.close(); 

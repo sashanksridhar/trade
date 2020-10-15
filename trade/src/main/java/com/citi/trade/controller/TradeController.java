@@ -99,6 +99,24 @@ public class TradeController {
 			MongoClient myMongo = new MongoClient(uri);
 			MongoDatabase database = myMongo.getDatabase("Task5");
 			
+			MongoCollection<Document> usercollection = database.getCollection("users");
+			double amoun = usercollection.find(Filters.eq("email",email)).first().getDouble("amount");
+			if(type.equals("BUY")) {
+				amoun -= trade.getPrice()*trade.getQuantity(); 
+			}
+			else if (type.equals("SELL")) {
+				amoun += trade.getPrice()*trade.getQuantity(); 
+			} 
+			
+			if(amoun< 0) {
+				model.addAttribute("message","Trade failed. Insufficient balance") ;
+				return "createtrade";
+				
+			}
+			else {
+			Document docu = new Document("amount",amoun);		
+			usercollection.updateOne(Filters.eq("email",email), new Document("$set", docu));
+			
 			Document doc = new Document("created", trade.getCreated()).append("type", trade.getType().toString()).append("state",trade.getState().toString()).append("ticker", trade.getTicker()).append("quantity",trade.getQuantity()).append("price", trade.getPrice());
 			MongoCollection<Document> mycollection = database.getCollection("trade");
 			mycollection.insertOne(doc);
@@ -109,6 +127,7 @@ public class TradeController {
 			myMongo.close(); 
 			model.addAttribute("message","Trade has been created successfully. Trade ID is "+doc.getObjectId("_id").toString());
 			return "createtrade";
+			}
 		}
 	}
 	@RequestMapping(value = "/trade/view", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
