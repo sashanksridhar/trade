@@ -150,14 +150,14 @@ public class TradeController {
 		String s = "";
 		MongoCollection<Document> user = database.getCollection("users");
 		double amoun = user.find(Filters.eq("email",email)).first().getDouble("amount");
-		s+="Balance Remaining is "+Double.toString(amoun)+"<br>";
+		s+="<ul><li><h1>"+"Balance Remaining is "+"</h1><p>"+Double.toString(amoun)+"</p></li></ul>";
 		
 		while (it.hasNext()) {
 			Document myDocument = it.next();
 			ObjectId id = myDocument.getObjectId("id");
 			MongoCollection<Document> tradeCollection = database.getCollection("trade");
 			Document myDoc = tradeCollection.find(Filters.eq("_id",id)).first();
-			s+=myDoc.toString()+"<br>";
+			s+="<ul><li><h1>"+"ID"+"</h1><p>"+myDoc.getObjectId("_id").toString()+"</p></li><li><h1>"+"Date Created"+"</h1><p>"+myDoc.getDate("created").toString()+"</p></li><li><h1>"+"Ticker"+"</h1><p>"+myDoc.getString("ticker")+"</p></li><li><h1>"+"Quantity"+"</h1><p>"+Integer.toString(myDoc.getInteger("quantity"))+"</p></li><li><h1>"+"Price"+"</h1><p>"+Double.toString(myDoc.getDouble("price"))+"</p></li><li><h1>"+"Type"+"</h1><p>"+myDoc.getString("type")+"</p></li><li><h1>"+"State"+"</h1><p>"+myDoc.getString("state")+"</p></li></ul>";
 			
 		}
 		
