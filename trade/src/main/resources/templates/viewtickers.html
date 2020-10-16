@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,7 +32,7 @@
 
  <form th:id="${message}" action="/portfolio/ticker/view" method="post">
 <input name="ticker" type="hidden" id="ticker" th:value="${message}">
-<a href="#" th:attr="onclick=|document.getElementById('${message}').submit()|" th:text="${message}"  class="more">>message</a>
+<a href="#" th:attr="onclick=|document.getElementById('${message}').submit()|" th:text="${message}"  class="more">message</a>
 </form>
 </div>
 </li>
