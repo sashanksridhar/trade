@@ -1,54 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="ISO-8859-1">
 <title>View Ticker Data</title>
+<link rel="stylesheet" th:href="@{/css/index/style.css}" type="text/css">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/index/mobile.css}">
+	<script th:src="@{/js/index/mobile.js}" type="text/javascript"></script>
 </head>
 <body>
-<center>
-<h3>List of Available Tickers</h3><br>
-
-<table>
-<tr>
- <th> Ticker</th>
- <td th:text="${ticker}">ticker</td>
- </tr>
- <th> Name</th>
- <td th:text="${name}">name</td>
- </tr>
- <th> Exchange</th>
- <td th:text="${exchange}">exchange</td>
- </tr>
- <th> Currency</th>
- <td th:text="${currency}">currency</td>
- </tr>
- <th> Price</th>
- <td th:text="${price}">price</td>
- </tr>
- <th> Volume</th>
- <td th:text="${volume}">volume</td>
- </tr>
- <th> High</th>
- <td th:text="${high}">high</td>
- </tr>
- <th> Low</th>
- <td th:text="${low}">low</td>
- </tr>
- <th> Open</th>
- <td th:text="${open}">open</td>
- </tr>
-
-</table>
-
+<div id="page">
+<div id="header">
+			<div>
+				<a href="/index.html" class="logo"><img th:src="@{/images/index/logo.png}" alt=""></a>
+				
+			</div>
+		</div>
+<div id="body">
+			<div class="header">
+				<div>
+					<h1>Ticker Data</h1>
+				</div>
+</div>
+<div>
+<ul>
+<li><h1>Ticker</h1>
+ <p th:text="${ticker}">ticker</p>
+ </li>
+ <li><h1>Name</h1>
+ 
+ <p th:text="${name}">name</p>
+ </li>
+ <li>
+ <h1> Exchange</h1>
+ <p th:text="${exchange}">exchange</p>
+ </li>
+ <li>
+ <h1> Currency</h1>
+ <p th:text="${currency}">currency</p>
+ </li>
+ <li>
+ <h1> Price</h1>
+ <p th:text="${price}">price</p>
+ </li>
+ <li>
+ <h1> Volume</h1>
+ <p th:text="${volume}">volume</p>
+ </li>
+ <li>
+ <h1> High</h1>
+ <p th:text="${high}">high</p>
+ </li>
+ <li>
+ <h1> Low</h1>
+ <p th:text="${low}">low</p>
+ </li>
+ <li>
+ <h1> Open</h1>
+ <p th:text="${open}">open</p>
+ </li>
+<li>
 
 <form id="form1" action="/user/main" method="post">
 <input name="email" type="hidden" id="em">
-<center><a href="#" onclick="document.getElementById('form1').submit();">Back to Main</a></center>
+<a href="#" onclick="document.getElementById('form1').submit();"class="logo"><img th:src="@{/images/index/home.jpg}" width ="100" height = "100" alt=""></a>
     
 </form>
+</li>
+</ul>
+</div></div>
+</div>
 
 
-</center>
 
 <script>
 document.getElementById("em").value = sessionStorage.getItem("email");
